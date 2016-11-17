@@ -8,7 +8,7 @@ if ( !defined('ABSPATH') ) {
 add_action('admin_init', 'boilerplate_admin_init');
 function boilerplate_admin_init(){
 	add_filter(	'plugin_row_meta',	'boilerplate_init_row_meta',10,2);
-	add_filter(	'plugin_action_links_' . plugin_basename( __FILE__ ), 'boilerplate_init_action_links');
+	add_filter(	'plugin_action_links_' . plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_init_action_links');
 }
 
 function boilerplate_tab($tabs) {
@@ -33,7 +33,7 @@ add_action('admin_menu', 'boilerplate_license_menu');
 
 
 /** * Activate Boilerplate on Activate Plugin */
-register_activation_hook( plugin_basename( __FILE__ ), 'boilerplate_activate' );
+register_activation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_activate' );
 function boilerplate_activate() {
 	if(class_exists('WPeMatico')) {
 		$cfg = get_option(WPeMatico :: OPTION_KEY);
@@ -46,7 +46,7 @@ function boilerplate_activate() {
 }
 
 /** * Deactivate Boilerplate on Deactivate Plugin  */
-register_deactivation_hook( plugin_basename( __FILE__ ), 'boilerplate_deactivate' );
+register_deactivation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_deactivate' );
 function boilerplate_deactivate() {
 	if(class_exists('WPeMatico')) {
 		if( update_option( WPeMatico::OPTION_KEY, $cfg ) ) {

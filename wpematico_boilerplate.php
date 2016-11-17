@@ -50,7 +50,7 @@ if( !class_exists( 'Boilerplate' ) ) {
          */
         public static function instance() {
             if( !self::$instance ) {
-                self::$instance = new Boilerplate();
+                self::$instance = new self();
                 self::$instance->setup_constants();
                 self::$instance->includes();
                 self::$instance->load_textdomain();
@@ -64,39 +64,46 @@ if( !class_exists( 'Boilerplate' ) ) {
         /**
          * Setup plugin constants
          *
-         * @access      private
+         * @access      public
          * @since       1.0.0
          * @return      void
          */
-        private function setup_constants() {
+       public static function setup_constants() {
             // Plugin version
-            define( 'BOILERPLATE_VER', '1.0.0' );
-
+			if(!defined('BOILERPLATE_VER')) {
+				define('BOILERPLATE_VER', '1.0.0' );
+			}
+			// Plugin root file
+			if(!defined('BOILERPLATE_ROOT_FILE')) {
+				define('BOILERPLATE_ROOT_FILE', __FILE__ );
+			}
             // Plugin path
-            define( 'BOILERPLATE_DIR', plugin_dir_path( __FILE__ ) );
-
+			if(!defined('BOILERPLATE_DIR')) {
+				define('BOILERPLATE_DIR', plugin_dir_path( __FILE__ ) );
+			}
             // Plugin URL
-            define( 'BOILERPLATE_URL', plugin_dir_url( __FILE__ ) );
-			
-			if(!defined( 'BOILERPLATE_STORE_URL' ) ) define( 'BOILERPLATE_STORE_URL', 'https://etruel.com' ); 
-			if(!defined( 'BOILERPLATE_ITEM_NAME' ) ) define( 'BOILERPLATE_ITEM_NAME', 'WPeMatico Boilerplate' ); 
+			if(!defined('BOILERPLATE_URL')) {
+				define('BOILERPLATE_URL', plugin_dir_url( __FILE__ ) );
+			}
+			if(!defined('BOILERPLATE_STORE_URL')) {
+				define('BOILERPLATE_STORE_URL', 'https://etruel.com'); 
+			} 
+			if(!defined('BOILERPLATE_ITEM_NAME')) {
+				define('BOILERPLATE_ITEM_NAME', 'WPeMatico Boilerplate'); 
+			} 
         }
 
 
         /**
          * Include necessary files
          *
-         * @access      private
+         * @access      public
          * @since       1.0.0
          * @return      void
          */
-        private function includes() {
+         public static function includes() {
             // Include scripts
-			if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) 
-				if( file_exists( WPEMATICO_PLUGIN_DIR . 'app/lib/Plugin_Updater.php' ) )
-					require_once ( WPEMATICO_PLUGIN_DIR . 'app/lib/Plugin_Updater.php' );
-				else require_once ( BOILERPLATE_DIR . 'includes/Plugin_Updater.php' );
-			require_once BOILERPLATE_DIR . 'includes/etruel_licenses_handler.php';
+			
 			require_once BOILERPLATE_DIR . 'includes/scripts.php';
 			require_once BOILERPLATE_DIR . 'includes/settings.php';
             require_once BOILERPLATE_DIR . 'includes/plugin_functions.php';
@@ -112,23 +119,32 @@ if( !class_exists( 'Boilerplate' ) ) {
         /**
          * Run action and filter hooks
          *
-         * @access      private
+         * @access      public
          * @since       1.0.0
          * @return      void
          *
          */
-        private function hooks() {
+         public static function hooks() {
             // Register settings
-            add_filter( 'wpematico_settings_extensions', array( $this, 'settings' ), 1 );
-
-            // Handle licensing
-            // @todo        Replace the Plugin Name and Your Name with your data
-            if( class_exists( 'EDD_License' ) ) {
-                $license = new EDD_License( __FILE__, BOILERPLATE_STORE_URL, BOILERPLATE_VER, 'Esteban Truelsegaard' );
-            }
+            add_filter( 'wpematico_settings_extensions', array(__CLASS__, 'settings' ), 1 );
+			add_filter( 'wpematico_plugins_updater_args', array(__CLASS__, 'add_updater'), 10, 1);
+           
         }
-
-
+		
+		public static function add_updater($args) {
+			if (empty($args['boilerplate'])) {
+				$args['boilerplate'] = array();
+				$args['boilerplate']['api_url'] = BOILERPLATE_STORE_URL;
+				$args['boilerplate']['plugin_file'] = BOILERPLATE_ROOT_FILE;
+				$args['boilerplate']['api_data'] = array(
+														'version' 	=> BOILERPLATE_VER, 				// current version number
+														'item_name' => BOILERPLATE_ITEM_NAME, 	// name of this plugin
+														'author' 	=> 'Esteban Truelsegaard'  // author of this plugin
+													);
+					
+			}
+			return $args;
+		}
         /**
          * Internationalization
          *
@@ -136,7 +152,7 @@ if( !class_exists( 'Boilerplate' ) ) {
          * @since       1.0.0
          * @return      void
          */
-        public function load_textdomain() {
+         public static function load_textdomain() {
             // Set filter for language directory
             $lang_dir = BOILERPLATE_DIR . '/languages/';
             $lang_dir = apply_filters( 'boilerplate_languages_directory', $lang_dir );
@@ -170,7 +186,7 @@ if( !class_exists( 'Boilerplate' ) ) {
          * @param       array $settings The existing EDD settings array
          * @return      array The modified EDD settings array
          */
-        public function settings( $settings ) {
+        public static function settings( $settings ) {
             $new_settings = array(
                 array(
                     'id'    => 'boilerplate_settings',
@@ -210,7 +226,7 @@ function Boilerplate_load() {
         return Boilerplate::instance();
     }
 }
-add_action( 'plugins_loaded', 'Boilerplate_load' );
+Boilerplate_load();
 
 
 /**
