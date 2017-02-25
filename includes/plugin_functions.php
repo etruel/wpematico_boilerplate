@@ -17,31 +17,15 @@ function boilerplate_tab($tabs) {
 }
 add_filter( 'wpematico_settings_tabs',  'boilerplate_tab');
 
-/*function boilerplate_license_menu() {
-	add_submenu_page(
-				'edit.php?post_type=wpematico',
-				'SMTP Settings',
-				'SMTP <span class="dashicons-before dashicons-admin-plugins"></span>',
-				'manage_options',
-				'boilerplate_license',
-				'boilerplate_license_page'
-			);
-	//add_plugins_page( 'Plugin License', 'Plugin License', 'manage_options', 'boilerplate_license', 'boilerplate_license_page' );
-}
-add_action('admin_menu', 'boilerplate_license_menu');
-*/
 
 
 /** * Activate Boilerplate on Activate Plugin */
 register_activation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_activate' );
 function boilerplate_activate() {
 	if(class_exists('WPeMatico')) {
-		$cfg = get_option(WPeMatico :: OPTION_KEY);
-		if( update_option( WPeMatico::OPTION_KEY, $cfg ) ) {
-			$link= '<a href="' . admin_url("edit.php?post_type=wpematico&page=wpematico_settings&tab=boilerplate") . '">'.__('Boilerplate Plugin Settings.',  'boilerplate')."</a>";
-			$notice= __('Boilerplate Activated.  Please check the fields on', 'boilerplate').' '. $link;
-			WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
-		}
+		$link= '<a href="' . admin_url("edit.php?post_type=wpematico&page=wpematico_settings&tab=boilerplate") . '">'.__('Boilerplate Plugin Settings.',  'boilerplate')."</a>";
+		$notice= __('Boilerplate Activated.  Please check the fields on', 'boilerplate').' '. $link;
+		WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
 	}
 }
 
@@ -49,10 +33,10 @@ function boilerplate_activate() {
 register_deactivation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_deactivate' );
 function boilerplate_deactivate() {
 	if(class_exists('WPeMatico')) {
-		if( update_option( WPeMatico::OPTION_KEY, $cfg ) ) {
-			$notice= __('Boilerplate DEACTIVATED.',  'boilerplate');
-			WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
-		}
+		
+		$notice = __('Boilerplate DEACTIVATED.',  'boilerplate');
+		WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
+		
 	}
 }
 
