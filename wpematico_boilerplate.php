@@ -3,7 +3,7 @@
  * Plugin Name:     WPeMatico Boilerplate
  * Plugin URI:      @todo
  * Description:     WPeMatico Add-on starter point Boilerplate plugin 
- * Version:         1.0.0
+ * Version:         1.0.1
  * Author:          etruel
  * Author URI:      http://www.netmdp.com
  * Text Domain:     boilerplate
@@ -27,6 +27,11 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 if( !class_exists( 'Boilerplate' ) ) {
 
+	// Plugin version
+	if(!defined('BOILERPLATE_VER')) {
+		define('BOILERPLATE_VER', '1.0.1' );
+	}
+	
     /**
      * Main Boilerplate class
      *
@@ -69,10 +74,6 @@ if( !class_exists( 'Boilerplate' ) ) {
          * @return      void
          */
        public static function setup_constants() {
-            // Plugin version
-			if(!defined('BOILERPLATE_VER')) {
-				define('BOILERPLATE_VER', '1.0.0' );
-			}
 			// Plugin root file
 			if(!defined('BOILERPLATE_ROOT_FILE')) {
 				define('BOILERPLATE_ROOT_FILE', __FILE__ );
@@ -226,8 +227,8 @@ function Boilerplate_load() {
         return Boilerplate::instance();
     }
 }
-Boilerplate_load();
-
+//Boilerplate_load();
+add_action( 'plugins_loaded', 'Boilerplate_load',999);
 
 /**
  * The activation hook is called outside of the singleton because WordPress doesn't

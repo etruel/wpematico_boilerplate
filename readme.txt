@@ -2,9 +2,9 @@
 Contributors: etruel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B8V39NWK3NFQU
 Tags: wpematico, Boilerplate, autoblog, rss, feed, read, matic
-Requires at least: 4.0
-Tested up to: 4.6
-Stable tag: 1.0.0
+Requires at least: 4.1
+Tested up to: 4.8
+Stable tag: 1.0.1
 
 Add On for WPeMatico plugin. Adds a feature to 
 
@@ -41,6 +41,9 @@ No. Plugin requires WPeMatico Free Version installed and activated.
 1. Settings page.  Fields to fill.
 
 == Changelog ==
+
+= 1.0.1 Jun 21, 2017 =
+* Added plugin_loaded action to load the plugin.
 
 = 1.0 =
 * initial release
