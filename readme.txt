@@ -3,8 +3,8 @@ Contributors: etruel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B8V39NWK3NFQU
 Tags: wpematico, Boilerplate, autoblog, rss, feed, read, matic
 Requires at least: 4.1
-Tested up to: 4.8
-Stable tag: 1.0.1
+Tested up to: 4.9
+Stable tag: 1.0.2
 
 Add On for WPeMatico plugin. Adds a feature to 
 
@@ -38,9 +38,13 @@ No. Plugin requires WPeMatico Free Version installed and activated.
 
 == Screenshots ==
 
-1. Settings page.  Fields to fill.
+1. Files details.
 
 == Changelog ==
+
+= 1.0.2 Aug 10, 2017 =
+* Activation hook moved from plugin functions to main file.
+* Screenshot with the boilerplate files details.
 
 = 1.0.1 Jun 21, 2017 =
 * Added plugin_loaded action to load the plugin.

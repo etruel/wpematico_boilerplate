@@ -33,7 +33,8 @@ add_action('admin_menu', 'boilerplate_license_menu');
 
 
 /** * Activate Boilerplate on Activate Plugin */
-register_activation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_activate' );
+//Does not work.  See on main file at bottom.
+/*  register_activation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_activate' );
 function boilerplate_activate() {
 	if(class_exists('WPeMatico')) {
 		$link= '<a href="' . admin_url("edit.php?post_type=wpematico&page=wpematico_settings&tab=boilerplate") . '">'.__('Boilerplate Plugin Settings.',  'boilerplate')."</a>";
@@ -41,6 +42,7 @@ function boilerplate_activate() {
 		WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
 	}
 }
+*/
 
 /** * Deactivate Boilerplate on Deactivate Plugin  */
 register_deactivation_hook( plugin_basename( BOILERPLATE_ROOT_FILE ), 'boilerplate_deactivate' );

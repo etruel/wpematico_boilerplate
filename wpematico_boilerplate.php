@@ -3,7 +3,7 @@
  * Plugin Name:     WPeMatico Boilerplate
  * Plugin URI:      @todo
  * Description:     WPeMatico Add-on starter point Boilerplate plugin 
- * Version:         1.0.1
+ * Version:         1.0.2
  * Author:          etruel
  * Author URI:      http://www.netmdp.com
  * Text Domain:     boilerplate
@@ -29,7 +29,7 @@ if( !class_exists( 'Boilerplate' ) ) {
 
 	// Plugin version
 	if(!defined('BOILERPLATE_VER')) {
-		define('BOILERPLATE_VER', '1.0.1' );
+		define('BOILERPLATE_VER', '1.0.2' );
 	}
 	
     /**
@@ -241,5 +241,10 @@ add_action( 'plugins_loaded', 'Boilerplate_load',999);
  */
 function boilerplate_activation() {
     /* Activation functions here */
+	if(class_exists('WPeMatico')) {
+		$link= '<a href="' . admin_url("edit.php?post_type=wpematico&page=wpematico_settings&tab=boilerplate") . '">'.__('Boilerplate Plugin Settings.',  'boilerplate')."</a>";
+		$notice= __('Boilerplate Activated.  Please check the fields on', 'boilerplate').' '. $link;
+		WPeMatico::add_wp_notice( array('text' => $notice , 'below-h2'=>false ) );
+	}
 }
 register_activation_hook( __FILE__, 'boilerplate_activation' );
